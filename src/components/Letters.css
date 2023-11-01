@@ -1,0 +1,16 @@
+.flexdiv {
+    width: 200px;
+    border: 1px solid black;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .maindiv {
+    width: 250px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .paragraph {
+    font-size: 10px;
+  }
