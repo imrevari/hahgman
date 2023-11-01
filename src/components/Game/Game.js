@@ -7,6 +7,8 @@ const Game = ({wordToGuess, restartGame}) => {
 
     const GAME_TITLE = "The Hangman"
     const USED_LETTERS = "USED_LETTERS"
+    const END_GAME = 'END GAME'
+    const START_GAME = 'START NEW GAME'
 
     const SVG_PIC = [
         <path d="M1,11 h8" />,
@@ -54,11 +56,15 @@ const Game = ({wordToGuess, restartGame}) => {
         restartGame()
     }
 
+    const endGame = () =>{
+        console.log('did not see if this button was determined')
+    }
+
 
     return(<>
         <div className="parentdiv">
             <div className="leftdiv">
-                <div className="picdiv">
+                <div>
                     <svg viewBox="0 0 10 12">
                         {SVG_PIC.map((e, index) => {if(index < unguessedLetters.length) return e })}
                     </svg>
@@ -66,16 +72,15 @@ const Game = ({wordToGuess, restartGame}) => {
             </div>
             <div className="rightdiv">
                 <h1>{GAME_TITLE}</h1>
-                {/* you lost you won */}
                 {youLost ? <h3>You lost</h3> : 
                     youWon ? <h3>You won</h3> :
                         <h3>{`It is a ${wordToGuess.length} letter word`}</h3>}
-                <WordToGuess />
+                {/* <WordToGuess /> */}
                 <h2>{wordToGuess}</h2>
                 <Letters selected={usedLetters} onSelect={selectLetter}/>
                 <div>
-                    <button>end game</button>
-                    <button onClick={() => startNewGame() }>start new game</button>
+                    <button className="button" onClick={() => endGame()}>{END_GAME}</button>
+                    <button className="button" onClick={() => startNewGame() }>{START_GAME}</button>
                 </div>
             </div>
         </div>
