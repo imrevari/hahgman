@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import './Game.css'
 import WordToGuess from '../WordToGuess/WordToGuess'
 import Letters from "../Letters/Letters";
@@ -25,12 +25,21 @@ const Game = ({wordToGuess}) => {
         setUsedLetters(prevState => [...prevState, letter])
     }
 
+    const unguessedLetters = useMemo(() => {
+        const unguessedLetters = [...usedLetters]
+        console.log(unguessedLetters)
+        console.log(wordToGuess)
+        return unguessedLetters.filter((letter) => !(wordToGuess.toUpperCase().includes(letter)))
+    }, [wordToGuess, usedLetters])
+
+    console.log(unguessedLetters)
+
     return(<>
         <div className="parentdiv">
             <div className="leftdiv">
                 <div className="picdiv">
                     <svg viewBox="0 0 10 12">
-                        {SVG_PIC.map((e, index) => {if(index < usedLetters.length) return e })}
+                        {SVG_PIC.map((e, index) => {if(index < unguessedLetters.length) return e })}
                     </svg>
                 </div>
             </div>
@@ -38,6 +47,7 @@ const Game = ({wordToGuess}) => {
                 <h1>{GAME_TITLE}</h1>
                 {/* you lost you won */}
                 <WordToGuess />
+                <h2>{wordToGuess}</h2>
                 <Letters selected={usedLetters} onSelect={selectLetter}/>
                 <div>
                     <button>end game</button>
