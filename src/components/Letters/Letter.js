@@ -1,7 +1,7 @@
 import React from "react";
 import styled from 'styled-components'
 
-const Letter = ({letter, disabled}) => {
+const Letter = ({letter, disabled, onSelect}) => {
 
     const Button = styled.button`
     background-color: transparent;
@@ -12,6 +12,7 @@ const Letter = ({letter, disabled}) => {
 
     return (<>
         <Button
+            onClick={() => onSelect(letter)}
             disabled={disabled}
         >{letter}</Button>
     </>)
