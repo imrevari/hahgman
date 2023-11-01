@@ -6,6 +6,8 @@ import Letters from "../Letters/Letters";
 const Game = ({wordToGuess, restartGame}) => {
 
     const GAME_TITLE = "The Hangman"
+    const USED_LETTERS = "USED_LETTERS"
+
     const SVG_PIC = [
         <path d="M1,11 h8" />,
         <path d="M9,11 v-10" />,
@@ -19,19 +21,18 @@ const Game = ({wordToGuess, restartGame}) => {
         <path d="M5,8 l2,2" />,
     ]
 
-    const [usedLetters, setUsedLetters] = useState([])
-
-    useEffect(() => {
-        setUsedLetters([])
-      }, [wordToGuess]);
+    const [usedLetters, setUsedLetters] = useState(window.localStorage.getItem(USED_LETTERS))
 
     const selectLetter = (letter) => {
+        window.localStorage.setItem(USED_LETTERS, [...usedLetters, letter])
         setUsedLetters(prevState => [...prevState, letter])
     }
 
     const unguessedLetters = useMemo(() => {
         const unguessedLetters = [...usedLetters]
-        return unguessedLetters.filter((letter) => !(wordToGuess.toUpperCase().includes(letter)))
+        const toReturn = unguessedLetters.filter((letter) => !(wordToGuess.toUpperCase().includes(letter)))
+
+        return toReturn
     }, [wordToGuess, usedLetters])
 
     const youWon = useMemo(() => {
@@ -46,6 +47,12 @@ const Game = ({wordToGuess, restartGame}) => {
         return  unguessedLetters.length >= 10 
     }, 
     [unguessedLetters])
+
+    const startNewGame = () =>{
+        window.localStorage.setItem(USED_LETTERS, [])
+        setUsedLetters([])
+        restartGame()
+    }
 
 
     return(<>
@@ -68,7 +75,7 @@ const Game = ({wordToGuess, restartGame}) => {
                 <Letters selected={usedLetters} onSelect={selectLetter}/>
                 <div>
                     <button>end game</button>
-                    <button onClick={() => restartGame() }>start new game</button>
+                    <button onClick={() => startNewGame() }>start new game</button>
                 </div>
             </div>
         </div>
