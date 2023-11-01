@@ -1,9 +1,9 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import './Game.css'
 import WordToGuess from '../WordToGuess/WordToGuess'
 import Letters from "../Letters/Letters";
 
-const Game = ({wordToGuess}) => {
+const Game = ({wordToGuess, restartGame}) => {
 
     const GAME_TITLE = "The Hangman"
     const SVG_PIC = [
@@ -20,6 +20,10 @@ const Game = ({wordToGuess}) => {
     ]
 
     const [usedLetters, setUsedLetters] = useState([])
+
+    useEffect(() => {
+        setUsedLetters([])
+      }, [wordToGuess]);
 
     const selectLetter = (letter) => {
         setUsedLetters(prevState => [...prevState, letter])
@@ -64,7 +68,7 @@ const Game = ({wordToGuess}) => {
                 <Letters selected={usedLetters} onSelect={selectLetter}/>
                 <div>
                     <button>end game</button>
-                    <button>start new game</button>
+                    <button onClick={() => restartGame() }>start new game</button>
                 </div>
             </div>
         </div>
