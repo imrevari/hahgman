@@ -27,12 +27,22 @@ const Game = ({wordToGuess}) => {
 
     const unguessedLetters = useMemo(() => {
         const unguessedLetters = [...usedLetters]
-        console.log(unguessedLetters)
-        console.log(wordToGuess)
         return unguessedLetters.filter((letter) => !(wordToGuess.toUpperCase().includes(letter)))
     }, [wordToGuess, usedLetters])
 
-    console.log(unguessedLetters)
+    const youWon = useMemo(() => {
+        var wordToGuessArray = wordToGuess.toUpperCase().split('');
+        const usedLettersCopy = [...usedLetters]
+        const remainingLettersToGuess = wordToGuessArray.filter((letter) => !usedLettersCopy.includes(letter))
+        return remainingLettersToGuess.length == 0
+    }, 
+    [wordToGuess, usedLetters])
+
+    const youLost = useMemo(() => {
+        return  unguessedLetters.length >= 10 
+    }, 
+    [unguessedLetters])
+
 
     return(<>
         <div className="parentdiv">
@@ -46,6 +56,9 @@ const Game = ({wordToGuess}) => {
             <div className="rightdiv">
                 <h1>{GAME_TITLE}</h1>
                 {/* you lost you won */}
+                {youLost ? <h3>You lost</h3> : 
+                    youWon ? <h3>You won</h3> :
+                        <h3>{`It is a ${wordToGuess.length} letter word`}</h3>}
                 <WordToGuess />
                 <h2>{wordToGuess}</h2>
                 <Letters selected={usedLetters} onSelect={selectLetter}/>
