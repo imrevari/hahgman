@@ -21,7 +21,7 @@ const Game = ({wordToGuess, restartGame}) => {
         <path d="M5,8 l2,2" />,
     ]
 
-    const [usedLetters, setUsedLetters] = useState(window.localStorage.getItem(USED_LETTERS))
+    const [usedLetters, setUsedLetters] = useState(window.localStorage.getItem(USED_LETTERS).split(','))
 
     const selectLetter = (letter) => {
         window.localStorage.setItem(USED_LETTERS, [...usedLetters, letter])
@@ -31,7 +31,7 @@ const Game = ({wordToGuess, restartGame}) => {
     const unguessedLetters = useMemo(() => {
         const unguessedLetters = [...usedLetters]
         const toReturn = unguessedLetters.filter((letter) => !(wordToGuess.toUpperCase().includes(letter)))
-
+        console.log(toReturn)
         return toReturn
     }, [wordToGuess, usedLetters])
 
